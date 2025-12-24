@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iwara検索式ジェネレーター</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Iwara検索式ジェネレーター</h1>
+            <p class="subtitle">複雑な検索条件をシンプルなフォームで入力</p>
+        </header>
+
+        <main>
+            <div class="workspace" aria-label="フォームとプレビューの並列ビュー">
+                <div class="workspace__form" role="region" aria-label="検索条件フォーム">
+                    <form id="searchForm" class="search-form">
+                <!-- ロケール -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">ロケール</h2>
+                    <div class="form-group form-group-inline">
+                        <label>ロケール</label>
+                        <div class="inline-radio no-divider" role="group" aria-label="ロケール">
+                            <label class="inline-radio__item">
+                                <input type="radio" name="localeMode" value="" checked>
+                                なし
+                            </label>
+                            <label class="inline-radio__item">
+                                <input type="radio" name="localeMode" value="en">
+                                英語
+                            </label>
+                            <label class="inline-radio__item">
+                                <input type="radio" name="localeMode" value="ja">
+                                日本語
+                            </label>
+                            <label class="inline-radio__item">
+                                <input type="radio" name="localeMode" value="zh">
+                                中国語
+                            </label>
+                        </div>
+                        <button type="button" id="resetBtnInline" class="btn btn-secondary btn-compact">クリア</button>
+                    </div>
+                </section>
+                <!-- タイトル -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">タイトル</h2>
+                    <div class="form-group form-group-inline">
+                        <label for="titleFilter">タイトル</label>
+                        <input type="text" id="titleFilter" name="titleFilter" placeholder="例: miku">
+                    </div>
+                </section>
+
+                <!-- 詳細 -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">詳細</h2>
+                    <div class="form-group form-group-inline">
+                        <label for="detailFilter">詳細</label>
+                        <input type="text" id="detailFilter" name="detailFilter" placeholder="例: dance">
+                    </div>
+                </section>
+
+                <!-- 作者 -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">作者</h2>
+                    <div class="form-group form-group-inline">
+                        <label for="users">作者</label>
+                        <input type="text" id="users" name="users" placeholder="例: creator1, creator2">
+                        <div class="inline-radio no-divider" role="group" aria-label="作者条件">
+                            <label class="inline-radio__item">
+                                <input type="radio" name="userMode" value="include" checked>
+                                絞り込む
+                            </label>
+                            <label class="inline-radio__item">
+                                <input type="radio" name="userMode" value="exclude">
+                                除外する
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- レーティング -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">レーティング</h2>
+                    <div class="form-group form-group-inline-2">
+                        <label>レーティング</label>
+                        <div class="inline-radio no-divider" role="group" aria-label="レーティング">
+                            <label class="inline-radio__item">
+                                <input type="radio" name="ratingMode" value="" checked>
+                                すべて
+                            </label>
+                            <label class="inline-radio__item">
+                                <input type="radio" name="ratingMode" value="general">
+                                一般
+                            </label>
+                            <label class="inline-radio__item">
+                                <input type="radio" name="ratingMode" value="ecchi">
+                                エッチ
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 長さ -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">長さ</h2>
+                    <div class="form-group form-group-inline-range">
+                        <label for="durationMin">長さ（秒）</label>
+                        <div class="range-inline">
+                            <div class="range-field">
+                                <input type="number" id="durationMin" name="durationMin" class="input-4ch" placeholder="60" min="0">
+                            </div>
+                            <span class="range-sep" aria-hidden="true">～</span>
+                            <div class="range-field">
+                                <input type="number" id="durationMax" name="durationMax" class="input-4ch" placeholder="120" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Likes -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">Likes</h2>
+                    <div class="form-group form-group-inline-range">
+                        <label for="likesMin">Likes</label>
+                        <div class="range-inline">
+                            <div class="range-field">
+                                <input type="number" id="likesMin" name="likesMin" class="input-8ch" placeholder="0" min="0">
+                            </div>
+                            <span class="range-sep" aria-hidden="true">～</span>
+                            <div class="range-field">
+                                <input type="number" id="likesMax" name="likesMax" class="input-8ch" placeholder="100" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Views -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">Views</h2>
+                    <div class="form-group form-group-inline-range">
+                        <label for="viewsMin">Views</label>
+                        <div class="range-inline">
+                            <div class="range-field">
+                                <input type="number" id="viewsMin" name="viewsMin" class="input-8ch" placeholder="0" min="0">
+                            </div>
+                            <span class="range-sep" aria-hidden="true">～</span>
+                            <div class="range-field">
+                                <input type="number" id="viewsMax" name="viewsMax" class="input-8ch" placeholder="10000000" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Comments -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">Comments</h2>
+                    <div class="form-group form-group-inline-range">
+                        <label for="commentsMin">Comments</label>
+                        <div class="range-inline">
+                            <div class="range-field">
+                                <input type="number" id="commentsMin" name="commentsMin" class="input-8ch" placeholder="0" min="0">
+                            </div>
+                            <span class="range-sep" aria-hidden="true">～</span>
+                            <div class="range-field">
+                                <input type="number" id="commentsMax" name="commentsMax" class="input-8ch" placeholder="10000000" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- タグ -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">タグ</h2>
+                    <div class="form-group form-group-inline">
+                        <label>タグ</label>
+                        <div class="tag-inline">
+                            <input type="text" id="tags" name="tags" placeholder="例: mmd, dance">
+                            <div class="inline-radio no-divider" role="group" aria-label="タグ条件">
+                                <label class="inline-radio__item">
+                                    <input type="radio" name="tagsMode" value="and" checked>
+                                    すべて含む
+                                </label>
+                                <label class="inline-radio__item">
+                                    <input type="radio" name="tagsMode" value="or">
+                                    いずれか含む
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-inline">
+                        <label for="tagsNot">タグ（除外）</label>
+                        <input type="text" id="tagsNot" name="tagsNot" placeholder="例: guro, scat">
+                    </div>
+                </section>
+
+                <!-- 更新日 -->
+                <section class="form-section">
+                    <h2 class="visually-hidden">更新日</h2>
+                    <div class="form-group form-group-inline-range">
+                        <label for="dateMin">更新日</label>
+                        <div class="range-inline">
+                            <div class="date-field">
+                                <input type="date" id="dateMin" name="dateMin">
+                                <button type="button" class="date-picker-btn" aria-label="開始日を選択" data-date-target="dateMin">📅</button>
+                            </div>
+                            <span class="range-sep" aria-hidden="true">～</span>
+                            <div class="date-field">
+                                <input type="date" id="dateMax" name="dateMax">
+                                <button type="button" class="date-picker-btn" aria-label="終了日を選択" data-date-target="dateMax">📅</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 生成結果 -->
+                <section class="result-section" aria-label="生成された検索式">
+                    <div class="result-header">
+                        <h2>生成された検索式</h2>
+                    </div>
+                    <div class="result-container">
+                        <div id="resultPreview" class="result-preview">
+                            <code id="searchExpression">ここに検索式が表示されます</code>
+                        </div>
+                        <button type="button" id="copyBtn" class="btn btn-copy" disabled>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
+                            </svg>
+                            コピー
+                        </button>
+                    </div>
+                    <div id="copyMessage" class="copy-message"></div>
+                </section>
+                    </form>
+                </div>
+            </div>
+
+            <!-- リファレンス -->
+            <section class="reference-section">
+                <h2>検索式のリファレンス</h2>
+                <div class="reference-content">
+                    <h3>基本的な演算子</h3>
+                    <ul>
+                        <li><strong>AND（スペース）</strong>: 複数の条件すべてを満たす（例: <code>{tags: [mmd]} {tags: [dance]}</code>）</li>
+                        <li><strong>OR</strong>: 複数の条件のいずれかを満たす（例: <code>{tags: [r18, ecchi]}</code>）</li>
+                        <li><strong>NOT</strong>: 条件を除外する（例: <code>{tags: ![guro]}</code>）</li>
+                    </ul>
+                    <h3>フィールド指定</h3>
+                    <ul>
+                        <li><code>{title_ja: miku}</code> - タイトル</li>
+                        <li><code>{body_ja: dance}</code> - 詳細</li>
+                        <li><code>{author: [username]}</code> - 作者</li>
+                        <li><code>{rating=general}</code> - レーティング</li>
+                        <li><code>{duration: [60..120]}</code> - 長さ（秒）</li>
+                        <li><code>{likes: [10..]}</code> - Likes</li>
+                        <li><code>{views: [100..]}</code> - Views</li>
+                        <li><code>{comments: [5..]}</code> - Comments</li>
+                        <li><code>{tags: [タグ名]}</code> - タグ（複数は <code>[a, b]</code>）</li>
+                        <li><code>{date: [1700000000..1709999999]}</code> - 更新日（UNIX）</li>
+                    </ul>
+                    <p class="reference-link">
+                        詳細は<a href="https://www.iwara.tv/forum/announcements/2520f68b-b13f-42db-834b-8ab9a2017ad4/2025-08-16-search-update-or-or" target="_blank" rel="noopener noreferrer">公式アナウンス</a>をご覧ください。
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Iwara検索式ジェネレーター</p>
+        </footer>
+    </div>
+
+  <script src="script.js"></script>
+  <script>
+    if (location.protocol.startsWith('http')) {
+      try {
+        const source = new EventSource('/__livereload');
+        source.onmessage = (event) => {
+          if (event.data === 'reload') {
+            location.reload();
+          }
+        };
+        source.onerror = () => {
+          source.close();
+        };
+      } catch (error) {
+        console.warn('Live reload is unavailable.', error);
+      }
+    }
+  </script>
+</body>
+</html>
