@@ -176,7 +176,13 @@
                     <div class="form-group form-group-inline">
                         <label>タグ</label>
                         <div class="tag-inline">
-                            <input type="text" id="tags" name="tags" placeholder="例: mmd, dance">
+                            <div class="tag-input-group">
+                                <div class="tag-input" aria-live="polite">
+                                    <div id="tagChips" class="tag-chips"></div>
+                                    <input type="text" id="tagInput" readonly>
+                                    <button type="button" id="tagAddBtn" class="tag-add-btn">追加</button>
+                                </div>
+                            </div>
                             <div class="inline-radio no-divider" role="group" aria-label="タグ条件">
                                 <label class="inline-radio__item">
                                     <input type="radio" name="tagsMode" value="and" checked>
@@ -189,10 +195,20 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" id="tags" name="tags">
                     <div class="form-group form-group-inline">
-                        <label for="tagsNot">タグ（除外）</label>
-                        <input type="text" id="tagsNot" name="tagsNot" placeholder="例: guro, scat">
+                        <label>タグ（除外）</label>
+                        <div class="tag-inline">
+                            <div class="tag-input-group">
+                                <div class="tag-input" aria-live="polite">
+                                    <div id="tagChipsNot" class="tag-chips"></div>
+                                    <input type="text" id="tagInputNot" readonly>
+                                    <button type="button" id="tagAddBtnNot" class="tag-add-btn">追加</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <input type="hidden" id="tagsNot" name="tagsNot">
                 </section>
 
                 <!-- 更新日 -->
@@ -203,12 +219,10 @@
                         <div class="range-inline">
                             <div class="date-field">
                                 <input type="date" id="dateMin" name="dateMin">
-                                <button type="button" class="date-picker-btn" aria-label="開始日を選択" data-date-target="dateMin">📅</button>
                             </div>
                             <span class="range-sep" aria-hidden="true">～</span>
                             <div class="date-field">
                                 <input type="date" id="dateMax" name="dateMax">
-                                <button type="button" class="date-picker-btn" aria-label="終了日を選択" data-date-target="dateMax">📅</button>
                             </div>
                         </div>
                     </div>
@@ -223,12 +237,27 @@
                         <div id="resultPreview" class="result-preview">
                             <code id="searchExpression">ここに検索式が表示されます</code>
                         </div>
-                        <button type="button" id="copyBtn" class="btn btn-copy" disabled>
+                        <div class="result-actions">
+                            <button type="button" id="searchBtn" class="btn btn-success">検索</button>
+                            <button type="button" id="copyBtn" class="btn btn-secondary" disabled>
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                                 <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
                             </svg>
                             コピー
-                        </button>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="saved-section" aria-label="保存済み条件">
+                        <div class="saved-header">
+                            <h3>保存済み条件</h3>
+                            <button type="button" id="savedClearBtn" class="btn btn-secondary btn-compact">全削除</button>
+                        </div>
+                        <div class="saved-input">
+                            <input type="text" id="savedName" placeholder="名前を付けて保存">
+                            <button type="button" id="savedAddBtn" class="btn btn-secondary btn-compact">保存</button>
+                        </div>
+                        <div id="savedEmpty" class="saved-empty">（まだありません）</div>
+                        <div id="savedList" class="saved-list" aria-live="polite"></div>
                     </div>
                     <div id="copyMessage" class="copy-message"></div>
                 </section>
@@ -236,10 +265,43 @@
                 </div>
             </div>
 
+            <div id="tagDialog" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="tagDialogTitle">
+                <div class="modal__backdrop" data-close="true"></div>
+                <div class="modal__content">
+                    <div class="modal__header">
+                        <h2 id="tagDialogTitle">タグを選択</h2>
+                        <button type="button" class="btn btn-secondary btn-compact modal__close" data-close="true">閉じる</button>
+                    </div>
+                    <div class="modal__body">
+                        <div class="tag-dialog__toolbar">
+                            <span class="tag-dialog__filter">タグを閲覧する</span>
+                            <span class="tag-dialog__source">source: tags_all.json</span>
+                        </div>
+                        <div class="tag-dialog__search">
+                            <label for="tagDialogSearch">検索</label>
+                            <input type="text" id="tagDialogSearch" placeholder="例: miku">
+                        </div>
+                        <div class="tag-dialog__frequent">
+                            <span>よく使うタグ</span>
+                            <div id="tagDialogFrequent" class="tag-dialog__frequent-list"></div>
+                        </div>
+                        <div id="tagDialogList" class="tag-dialog__list"></div>
+                        <div id="tagDialogEmpty" class="tag-dialog__empty"></div>
+                        <div class="tag-dialog__pager">
+                            <button type="button" id="tagDialogPrev" class="btn btn-secondary btn-compact">前</button>
+                            <div id="tagDialogPagerNumbers" class="tag-dialog__pages"></div>
+                            <button type="button" id="tagDialogNext" class="btn btn-secondary btn-compact">次</button>
+                            <span id="tagDialogPage" class="tag-dialog__page">1/1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- リファレンス -->
             <section class="reference-section">
-                <h2>検索式のリファレンス</h2>
-                <div class="reference-content">
+                <details class="reference-toggle">
+                    <summary>検索式のリファレンス</summary>
+                    <div class="reference-content">
                     <h3>基本的な演算子</h3>
                     <ul>
                         <li><strong>AND（スペース）</strong>: 複数の条件すべてを満たす（例: <code>{tags: [mmd]} {tags: [dance]}</code>）</li>
@@ -262,7 +324,8 @@
                     <p class="reference-link">
                         詳細は<a href="https://www.iwara.tv/forum/announcements/2520f68b-b13f-42db-834b-8ab9a2017ad4/2025-08-16-search-update-or-or" target="_blank" rel="noopener noreferrer">公式アナウンス</a>をご覧ください。
                     </p>
-                </div>
+                    </div>
+                </details>
             </section>
         </main>
 
