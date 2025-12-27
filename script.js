@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const resetBtn = document.getElementById('resetBtn') ?? document.getElementById('resetBtnInline');
     const copyBtn = document.getElementById('copyBtn');
     const searchBtn = document.getElementById('searchBtn');
+    const sortMode = document.getElementById('sortMode');
     const searchExpression = document.getElementById('searchExpression');
     const copyMessage = document.getElementById('copyMessage');
     const exampleButtons = document.querySelectorAll('.example-fill');
@@ -25,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const tagAddBtnNot = document.getElementById('tagAddBtnNot');
     const savedList = document.getElementById('savedList');
     const savedEmpty = document.getElementById('savedEmpty');
-    const savedClearBtn = document.getElementById('savedClearBtn');
     const savedName = document.getElementById('savedName');
     const savedAddBtn = document.getElementById('savedAddBtn');
     const tagDialogFrequent = document.getElementById('tagDialogFrequent');
@@ -86,7 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!expression || expression === 'ここに検索式が表示されます') {
                 return;
             }
-            const url = `https://www.iwara.tv/search?type=videos&page=0&query=${encodeURIComponent(expression)}`;
+            const sortValue = sortMode ? sortMode.value : '';
+            const sortParam = sortValue ? `&sort=${encodeURIComponent(sortValue)}` : '';
+            const url = `https://www.iwara.tv/search?type=videos&page=0&query=${encodeURIComponent(expression)}${sortParam}`;
             const link = document.createElement('a');
             link.href = url;
             link.target = '_blank';
@@ -112,14 +114,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    if (savedClearBtn) {
-        savedClearBtn.addEventListener('click', () => {
-            savedItems = [];
-            saveSavedItems();
-            renderSavedItems();
-        });
-    }
-
     if (savedList) {
         savedList.addEventListener('click', (event) => {
             const target = event.target;
@@ -130,11 +124,17 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!itemId) {
                 return;
             }
-            const item = savedItems.find(entry => entry.id === itemId);
-            if (!item) {
+            if (target.dataset.action === 'remove') {
+                removeSavedItem(itemId);
                 return;
             }
-            applySavedState(item);
+            if (target.dataset.action === 'apply') {
+                const item = savedItems.find(entry => entry.id === itemId);
+                if (!item) {
+                    return;
+                }
+                applySavedState(item);
+            }
         });
     }
 
@@ -1009,19 +1009,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         savedEmpty.style.display = 'none';
         savedItems.forEach(item => {
-            const row = document.createElement('div');
-            row.className = 'saved-item';
-            const label = document.createElement('div');
-            label.className = 'saved-expression';
-            label.textContent = `${item.name}：${item.expression}`;
-            const applyButton = document.createElement('button');
-            applyButton.type = 'button';
-            applyButton.className = 'btn btn-secondary btn-compact saved-apply';
-            applyButton.textContent = '適用';
-            applyButton.dataset.savedId = item.id;
-            row.appendChild(label);
-            row.appendChild(applyButton);
-            savedList.appendChild(row);
+            const chip = document.createElement('div');
+            chip.className = 'saved-chip';
+            const nameButton = document.createElement('button');
+            nameButton.type = 'button';
+            nameButton.className = 'saved-chip__name';
+            nameButton.textContent = item.name;
+            nameButton.title = item.expression;
+            nameButton.dataset.savedId = item.id;
+            nameButton.dataset.action = 'apply';
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'saved-chip__remove';
+            removeButton.textContent = '×';
+            removeButton.dataset.savedId = item.id;
+            removeButton.dataset.action = 'remove';
+            chip.appendChild(nameButton);
+            chip.appendChild(removeButton);
+            savedList.appendChild(chip);
         });
     }
 
@@ -1062,6 +1067,16 @@ document.addEventListener('DOMContentLoaded', function() {
         renderTagChips();
         renderTagChipsNot();
         generateSearchExpression();
+    }
+
+    function removeSavedItem(itemId) {
+        const nextItems = savedItems.filter(entry => entry.id !== itemId);
+        if (nextItems.length === savedItems.length) {
+            return;
+        }
+        savedItems = nextItems;
+        saveSavedItems();
+        renderSavedItems();
     }
 
     /**
@@ -1131,6 +1146,9 @@ document.addEventListener('DOMContentLoaded', function() {
         setRadioValue('userMode', state.userMode ?? 'include');
         setRadioValue('ratingMode', state.ratingMode ?? '');
         setRadioValue('tagsMode', state.tagsMode ?? 'and');
+        if (sortMode && typeof state.sortMode === 'string') {
+            sortMode.value = state.sortMode;
+        }
     }
 
     function clearStoredState() {
@@ -1168,7 +1186,8 @@ document.addEventListener('DOMContentLoaded', function() {
             tagsMode: (form.querySelector('input[name="tagsMode"]:checked')?.value) ?? 'and',
             tagsNot: document.getElementById('tagsNot').value.trim(),
             dateMin: document.getElementById('dateMin').value.trim(),
-            dateMax: document.getElementById('dateMax').value.trim()
+            dateMax: document.getElementById('dateMax').value.trim(),
+            sortMode: sortMode ? sortMode.value : ''
         };
     }
 

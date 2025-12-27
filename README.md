@@ -1,4 +1,4 @@
-# Iwara検索式ジェネレーター
+# Iwara検索フォーム Ver 0.1
 
 Iwaraの複雑な検索条件を、シンプルなフォームで簡単に作成できるツールです。
 
@@ -22,6 +22,7 @@ Iwaraの複雑な検索条件を、シンプルなフォームで簡単に作成
 ### 基本的な使用方法
 
 1. `index.html` をブラウザで開く
+   - 公開ページ: https://morihami.github.io/iwara-search-form-public/
 2. フォームに検索条件を入力
 3. 自動的に検索式が生成される
 4. 「コピー」ボタンで検索式をクリップボードにコピー
@@ -136,9 +137,13 @@ README内の使用例は、ページ上の「この条件をフォームに反�
 
 ```
 iwara-search-form/
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml  # GitHub Pages自動デプロイ
 ├── index.html    # メインHTML（フォーム構造）
 ├── style.css     # スタイルシート（デザイン）
 ├── script.js     # JavaScript（ロジック）
+├── tags_all.json # タグデータ
 └── README.md     # このファイル
 ```
 
@@ -155,6 +160,20 @@ iwara-search-form/
 - **デザイン変更**: `style.css` の CSS変数を編集
 - **機能追加**: `script.js` に新しいフィールド処理を追加
 - **フィールド追加**: `index.html` にフォーム要素を追加後、`script.js` で処理を追加
+
+### 自動デプロイ
+
+GitHub Actionsを使用して、`main`ブランチへのプッシュ時に自動的にGitHub Pagesへデプロイされます：
+
+- **ワークフロー**: `.github/workflows/deploy-pages.yml`
+- **トリガー**: `main`ブランチへのpush、または手動実行
+- **デプロイ先**: GitHub Pages（リポジトリの設定で有効化が必要）
+
+#### GitHub Pagesの有効化手順
+
+1. リポジトリの「Settings」→「Pages」を開く
+2. 「Source」で「GitHub Actions」を選択
+3. ファイルを`main`ブランチにプッシュすると自動的にデプロイされます
 
 ## 📝 参考資料
 

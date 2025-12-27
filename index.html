@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iwara検索式ジェネレーター</title>
+    <title>Iwara検索フォーム</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Iwara検索式ジェネレーター</h1>
-            <p class="subtitle">複雑な検索条件をシンプルなフォームで入力</p>
+            <h1>Iwara検索フォーム <span class="version">Ver 0.1</span></h1>
+            <p class="subtitle">フォーム入力でビデオを検索します</p>
         </header>
 
         <main>
@@ -230,36 +230,38 @@
 
                 <!-- 生成結果 -->
                 <section class="result-section" aria-label="生成された検索式">
-                    <div class="result-header">
-                        <h2>生成された検索式</h2>
-                    </div>
                     <div class="result-container">
-                        <div id="resultPreview" class="result-preview">
-                            <code id="searchExpression">ここに検索式が表示されます</code>
-                        </div>
-                        <div class="result-actions">
+                        <div class="result-actions-row">
+                            <div id="resultPreview" class="result-preview">
+                                <code id="searchExpression">ここに検索式が表示されます</code>
+                            </div>
+                            <select id="sortMode" aria-label="並び順">
+                                <option value="">関連順に並べ替え</option>
+                                <option value="date">更新日順</option>
+                                <option value="views">再生数順</option>
+                                <option value="likes">いいね順</option>
+                            </select>
                             <button type="button" id="searchBtn" class="btn btn-success">検索</button>
-                            <button type="button" id="copyBtn" class="btn btn-secondary" disabled>
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                                <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
-                            </svg>
-                            コピー
-                            </button>
                         </div>
+                        <button type="button" id="copyBtn" class="btn btn-secondary" disabled>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
+                        </svg>
+                        コピー
+                        </button>
                     </div>
+                    <div id="copyMessage" class="copy-message"></div>
                     <div class="saved-section" aria-label="保存済み条件">
                         <div class="saved-header">
                             <h3>保存済み条件</h3>
-                            <button type="button" id="savedClearBtn" class="btn btn-secondary btn-compact">全削除</button>
-                        </div>
-                        <div class="saved-input">
-                            <input type="text" id="savedName" placeholder="名前を付けて保存">
-                            <button type="button" id="savedAddBtn" class="btn btn-secondary btn-compact">保存</button>
+                            <div class="saved-input">
+                                <input type="text" id="savedName" placeholder="名前を付けて保存">
+                                <button type="button" id="savedAddBtn" class="btn btn-secondary btn-compact">保存</button>
+                            </div>
                         </div>
                         <div id="savedEmpty" class="saved-empty">（まだありません）</div>
                         <div id="savedList" class="saved-list" aria-live="polite"></div>
                     </div>
-                    <div id="copyMessage" class="copy-message"></div>
                 </section>
                     </form>
                 </div>
@@ -330,7 +332,7 @@
         </main>
 
         <footer>
-            <p>&copy; 2024 Iwara検索式ジェネレーター</p>
+            <p>&copy; 2024 Iwara検索フォーム</p>
         </footer>
     </div>
 
