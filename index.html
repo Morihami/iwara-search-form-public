@@ -9,46 +9,67 @@
 <body>
     <div class="container">
         <header>
-            <h1>Iwara検索フォーム <span class="version">Ver 0.1</span></h1>
-            <p class="subtitle">フォーム入力でビデオを検索します</p>
+            <h1><span data-i18n="app.title">Iwara検索フォーム</span> <span class="version">Ver 0.2</span></h1>
+            <p class="subtitle" data-i18n="app.subtitle">フォーム入力でビデオを検索します</p>
         </header>
 
         <main>
             <div class="workspace" aria-label="フォームとプレビューの並列ビュー">
                 <div class="workspace__form" role="region" aria-label="検索条件フォーム">
                     <form id="searchForm" class="search-form">
+                <!-- 表示言語 -->
+                <section class="form-section">
+                    <h2 class="visually-hidden" data-i18n="ui.language">表示言語</h2>
+                    <div class="form-group form-group-inline">
+                        <label data-i18n="ui.language">表示言語</label>
+                        <div class="inline-radio no-divider" role="group" aria-label="表示言語">
+                            <label class="inline-radio__item">
+                                <input type="radio" name="uiLang" value="ja" checked>
+                                <span data-i18n="ui.langJa">日本語</span>
+                            </label>
+                            <label class="inline-radio__item">
+                                <input type="radio" name="uiLang" value="en">
+                                <span data-i18n="ui.langEn">English</span>
+                            </label>
+                            <label class="inline-radio__item">
+                                <input type="radio" name="uiLang" value="zh">
+                                <span data-i18n="ui.langZh">中文</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
                 <!-- ロケール -->
                 <section class="form-section">
                     <h2 class="visually-hidden">ロケール</h2>
                     <div class="form-group form-group-inline">
-                        <label>ロケール</label>
+                        <label data-i18n="label.locale">ロケール</label>
                         <div class="inline-radio no-divider" role="group" aria-label="ロケール">
                             <label class="inline-radio__item">
                                 <input type="radio" name="localeMode" value="" checked>
-                                なし
+                                <span data-i18n="option.none">なし</span>
                             </label>
                             <label class="inline-radio__item">
                                 <input type="radio" name="localeMode" value="en">
-                                英語
+                                <span data-i18n="option.english">英語</span>
                             </label>
                             <label class="inline-radio__item">
                                 <input type="radio" name="localeMode" value="ja">
-                                日本語
+                                <span data-i18n="option.japanese">日本語</span>
                             </label>
                             <label class="inline-radio__item">
                                 <input type="radio" name="localeMode" value="zh">
-                                中国語
+                                <span data-i18n="option.chinese">中国語</span>
                             </label>
                         </div>
-                        <button type="button" id="resetBtnInline" class="btn btn-secondary btn-compact">クリア</button>
+                        <button type="button" id="resetBtnInline" class="btn btn-secondary btn-compact" data-i18n="button.clear">クリア</button>
                     </div>
                 </section>
                 <!-- タイトル -->
                 <section class="form-section">
                     <h2 class="visually-hidden">タイトル</h2>
                     <div class="form-group form-group-inline">
-                        <label for="titleFilter">タイトル</label>
-                        <input type="text" id="titleFilter" name="titleFilter" placeholder="例: miku">
+                        <label for="titleFilter" data-i18n="label.title">タイトル</label>
+                        <input type="text" id="titleFilter" name="titleFilter" placeholder="例: miku" data-i18n-placeholder="placeholder.title">
                     </div>
                 </section>
 
@@ -56,8 +77,8 @@
                 <section class="form-section">
                     <h2 class="visually-hidden">詳細</h2>
                     <div class="form-group form-group-inline">
-                        <label for="detailFilter">詳細</label>
-                        <input type="text" id="detailFilter" name="detailFilter" placeholder="例: dance">
+                        <label for="detailFilter" data-i18n="label.detail">詳細</label>
+                        <input type="text" id="detailFilter" name="detailFilter" placeholder="例: dance" data-i18n-placeholder="placeholder.detail">
                     </div>
                 </section>
 
@@ -65,16 +86,16 @@
                 <section class="form-section">
                     <h2 class="visually-hidden">作者</h2>
                     <div class="form-group form-group-inline">
-                        <label for="users">作者</label>
-                        <input type="text" id="users" name="users" placeholder="例: creator1, creator2">
+                        <label for="users" data-i18n="label.author">作者</label>
+                        <input type="text" id="users" name="users" placeholder="例: creator1, creator2" data-i18n-placeholder="placeholder.author">
                         <div class="inline-radio no-divider" role="group" aria-label="作者条件">
                             <label class="inline-radio__item">
                                 <input type="radio" name="userMode" value="include" checked>
-                                絞り込む
+                                <span data-i18n="option.userInclude">絞り込む</span>
                             </label>
                             <label class="inline-radio__item">
                                 <input type="radio" name="userMode" value="exclude">
-                                除外する
+                                <span data-i18n="option.userExclude">除外する</span>
                             </label>
                         </div>
                     </div>
@@ -84,19 +105,19 @@
                 <section class="form-section">
                     <h2 class="visually-hidden">レーティング</h2>
                     <div class="form-group form-group-inline-2">
-                        <label>レーティング</label>
+                        <label data-i18n="label.rating">レーティング</label>
                         <div class="inline-radio no-divider" role="group" aria-label="レーティング">
                             <label class="inline-radio__item">
                                 <input type="radio" name="ratingMode" value="" checked>
-                                すべて
+                                <span data-i18n="option.ratingAll">すべて</span>
                             </label>
                             <label class="inline-radio__item">
                                 <input type="radio" name="ratingMode" value="general">
-                                一般
+                                <span data-i18n="option.ratingGeneral">一般</span>
                             </label>
                             <label class="inline-radio__item">
                                 <input type="radio" name="ratingMode" value="ecchi">
-                                エッチ
+                                <span data-i18n="option.ratingEcchi">エッチ</span>
                             </label>
                         </div>
                     </div>
@@ -106,14 +127,14 @@
                 <section class="form-section">
                     <h2 class="visually-hidden">長さ</h2>
                     <div class="form-group form-group-inline-range">
-                        <label for="durationMin">長さ（秒）</label>
+                        <label for="durationMin" data-i18n="label.duration">長さ（秒）</label>
                         <div class="range-inline">
                             <div class="range-field">
-                                <input type="number" id="durationMin" name="durationMin" class="input-4ch" placeholder="60" min="0">
+                                <input type="number" id="durationMin" name="durationMin" class="input-4ch" placeholder="60" min="0" data-i18n-placeholder="placeholder.minSeconds">
                             </div>
                             <span class="range-sep" aria-hidden="true">～</span>
                             <div class="range-field">
-                                <input type="number" id="durationMax" name="durationMax" class="input-4ch" placeholder="120" min="0">
+                                <input type="number" id="durationMax" name="durationMax" class="input-4ch" placeholder="120" min="0" data-i18n-placeholder="placeholder.maxSeconds">
                             </div>
                         </div>
                     </div>
@@ -123,14 +144,14 @@
                 <section class="form-section">
                     <h2 class="visually-hidden">Likes</h2>
                     <div class="form-group form-group-inline-range">
-                        <label for="likesMin">Likes</label>
+                        <label for="likesMin" data-i18n="label.likes">Likes</label>
                         <div class="range-inline">
                             <div class="range-field">
-                                <input type="number" id="likesMin" name="likesMin" class="input-8ch" placeholder="0" min="0">
+                                <input type="number" id="likesMin" name="likesMin" class="input-8ch" placeholder="0" min="0" data-i18n-placeholder="placeholder.minCount">
                             </div>
                             <span class="range-sep" aria-hidden="true">～</span>
                             <div class="range-field">
-                                <input type="number" id="likesMax" name="likesMax" class="input-8ch" placeholder="100" min="0">
+                                <input type="number" id="likesMax" name="likesMax" class="input-8ch" placeholder="100" min="0" data-i18n-placeholder="placeholder.maxCountShort">
                             </div>
                         </div>
                     </div>
@@ -140,14 +161,14 @@
                 <section class="form-section">
                     <h2 class="visually-hidden">Views</h2>
                     <div class="form-group form-group-inline-range">
-                        <label for="viewsMin">Views</label>
+                        <label for="viewsMin" data-i18n="label.views">Views</label>
                         <div class="range-inline">
                             <div class="range-field">
-                                <input type="number" id="viewsMin" name="viewsMin" class="input-8ch" placeholder="0" min="0">
+                                <input type="number" id="viewsMin" name="viewsMin" class="input-8ch" placeholder="0" min="0" data-i18n-placeholder="placeholder.minCount">
                             </div>
                             <span class="range-sep" aria-hidden="true">～</span>
                             <div class="range-field">
-                                <input type="number" id="viewsMax" name="viewsMax" class="input-8ch" placeholder="10000000" min="0">
+                                <input type="number" id="viewsMax" name="viewsMax" class="input-8ch" placeholder="10000000" min="0" data-i18n-placeholder="placeholder.maxCount">
                             </div>
                         </div>
                     </div>
@@ -157,14 +178,14 @@
                 <section class="form-section">
                     <h2 class="visually-hidden">Comments</h2>
                     <div class="form-group form-group-inline-range">
-                        <label for="commentsMin">Comments</label>
+                        <label for="commentsMin" data-i18n="label.comments">Comments</label>
                         <div class="range-inline">
                             <div class="range-field">
-                                <input type="number" id="commentsMin" name="commentsMin" class="input-8ch" placeholder="0" min="0">
+                                <input type="number" id="commentsMin" name="commentsMin" class="input-8ch" placeholder="0" min="0" data-i18n-placeholder="placeholder.minCount">
                             </div>
                             <span class="range-sep" aria-hidden="true">～</span>
                             <div class="range-field">
-                                <input type="number" id="commentsMax" name="commentsMax" class="input-8ch" placeholder="10000000" min="0">
+                                <input type="number" id="commentsMax" name="commentsMax" class="input-8ch" placeholder="10000000" min="0" data-i18n-placeholder="placeholder.maxCount">
                             </div>
                         </div>
                     </div>
@@ -174,36 +195,39 @@
                 <section class="form-section">
                     <h2 class="visually-hidden">タグ</h2>
                     <div class="form-group form-group-inline">
-                        <label>タグ</label>
+                        <label data-i18n="label.tags">タグ</label>
                         <div class="tag-inline">
                             <div class="tag-input-group">
                                 <div class="tag-input" aria-live="polite">
                                     <div id="tagChips" class="tag-chips"></div>
                                     <input type="text" id="tagInput" readonly>
-                                    <button type="button" id="tagAddBtn" class="tag-add-btn">追加</button>
+                                    <button type="button" id="tagAddBtn" class="tag-add-btn" data-i18n="button.add">追加</button>
                                 </div>
-                            </div>
-                            <div class="inline-radio no-divider" role="group" aria-label="タグ条件">
-                                <label class="inline-radio__item">
-                                    <input type="radio" name="tagsMode" value="and" checked>
-                                    すべて含む
-                                </label>
-                                <label class="inline-radio__item">
-                                    <input type="radio" name="tagsMode" value="or">
-                                    いずれか含む
-                                </label>
                             </div>
                         </div>
                     </div>
                     <input type="hidden" id="tags" name="tags">
+                    <div class="form-group form-group-inline tag-filter-row">
+                        <label data-i18n="label.tagsFilter">絞り込み</label>
+                        <div class="tag-inline">
+                            <div class="tag-input-group">
+                                <div class="tag-input" aria-live="polite">
+                                    <div id="tagChipsOr2" class="tag-chips"></div>
+                                    <input type="text" id="tagInputOr2" readonly>
+                                    <button type="button" id="tagAddBtnOr2" class="tag-add-btn" data-i18n="button.add">追加</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="tagsOr2" name="tagsOr2">
                     <div class="form-group form-group-inline">
-                        <label>タグ（除外）</label>
+                        <label data-i18n="label.tagsExclude">タグ（除外）</label>
                         <div class="tag-inline">
                             <div class="tag-input-group">
                                 <div class="tag-input" aria-live="polite">
                                     <div id="tagChipsNot" class="tag-chips"></div>
                                     <input type="text" id="tagInputNot" readonly>
-                                    <button type="button" id="tagAddBtnNot" class="tag-add-btn">追加</button>
+                                    <button type="button" id="tagAddBtnNot" class="tag-add-btn" data-i18n="button.add">追加</button>
                                 </div>
                             </div>
                         </div>
@@ -215,7 +239,7 @@
                 <section class="form-section">
                     <h2 class="visually-hidden">更新日</h2>
                     <div class="form-group form-group-inline-range">
-                        <label for="dateMin">更新日</label>
+                        <label for="dateMin" data-i18n="label.updatedAt">更新日</label>
                         <div class="range-inline">
                             <div class="date-field">
                                 <input type="date" id="dateMin" name="dateMin">
@@ -233,33 +257,32 @@
                     <div class="result-container">
                         <div class="result-actions-row">
                             <div id="resultPreview" class="result-preview">
-                                <code id="searchExpression">ここに検索式が表示されます</code>
+                                <code id="searchExpression" data-i18n="result.empty">ここに検索式が表示されます</code>
                             </div>
                             <select id="sortMode" aria-label="並び順">
-                                <option value="">関連順に並べ替え</option>
-                                <option value="date">更新日順</option>
-                                <option value="views">再生数順</option>
-                                <option value="likes">いいね順</option>
+                                <option value="" data-i18n="sort.relevance">関連順に並べ替え</option>
+                                <option value="date" data-i18n="sort.date">更新日順</option>
+                                <option value="views" data-i18n="sort.views">再生数順</option>
+                                <option value="likes" data-i18n="sort.likes">いいね順</option>
                             </select>
-                            <button type="button" id="searchBtn" class="btn btn-success">検索</button>
+                            <button type="button" id="searchBtn" class="btn btn-success" data-i18n="button.search">検索</button>
                         </div>
-                        <button type="button" id="copyBtn" class="btn btn-secondary" disabled>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
-                        </svg>
-                        コピー
-                        </button>
                     </div>
-                    <div id="copyMessage" class="copy-message"></div>
                     <div class="saved-section" aria-label="保存済み条件">
-                        <div class="saved-header">
-                            <h3>保存済み条件</h3>
+                        <div class="saved-row">
+                            <button type="button" id="copyBtn" class="btn btn-secondary" disabled>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
+                            </svg>
+                            <span data-i18n="button.copy">コピー</span>
+                            </button>
                             <div class="saved-input">
-                                <input type="text" id="savedName" placeholder="名前を付けて保存">
-                                <button type="button" id="savedAddBtn" class="btn btn-secondary btn-compact">保存</button>
+                                <input type="text" id="savedName" placeholder="名前を付けて保存" data-i18n-placeholder="saved.placeholder">
+                                <button type="button" id="savedAddBtn" class="btn btn-secondary btn-compact" data-i18n="button.save">保存</button>
                             </div>
                         </div>
-                        <div id="savedEmpty" class="saved-empty">（まだありません）</div>
+                        <div id="copyMessage" class="copy-message"></div>
+                        <div id="savedEmpty" class="saved-empty" data-i18n="saved.empty">（まだありません）</div>
                         <div id="savedList" class="saved-list" aria-live="polite"></div>
                     </div>
                 </section>
@@ -271,69 +294,40 @@
                 <div class="modal__backdrop" data-close="true"></div>
                 <div class="modal__content">
                     <div class="modal__header">
-                        <h2 id="tagDialogTitle">タグを選択</h2>
-                        <button type="button" class="btn btn-secondary btn-compact modal__close" data-close="true">閉じる</button>
+                        <h2 id="tagDialogTitle" data-i18n="tagDialog.title">タグを選択</h2>
+                        <button type="button" class="btn btn-secondary btn-compact modal__close" data-close="true" data-i18n="button.close">閉じる</button>
                     </div>
                     <div class="modal__body">
                         <div class="tag-dialog__toolbar">
-                            <span class="tag-dialog__filter">タグを閲覧する</span>
-                            <span class="tag-dialog__source">source: tags_all.json</span>
+                            <span class="tag-dialog__filter" data-i18n="tagDialog.browse">タグを閲覧する</span>
+                            <span class="tag-dialog__source" data-i18n="tagDialog.source">source: tags_all.json</span>
                         </div>
                         <div class="tag-dialog__search">
-                            <label for="tagDialogSearch">検索</label>
-                            <input type="text" id="tagDialogSearch" placeholder="例: miku">
+                            <label for="tagDialogSearch" data-i18n="tagDialog.searchLabel">検索</label>
+                            <input type="text" id="tagDialogSearch" placeholder="例: miku" data-i18n-placeholder="tagDialog.searchPlaceholder">
                         </div>
                         <div class="tag-dialog__frequent">
-                            <span>よく使うタグ</span>
+                            <span data-i18n="tagDialog.frequent">よく使うタグ</span>
                             <div id="tagDialogFrequent" class="tag-dialog__frequent-list"></div>
                         </div>
                         <div id="tagDialogList" class="tag-dialog__list"></div>
                         <div id="tagDialogEmpty" class="tag-dialog__empty"></div>
                         <div class="tag-dialog__pager">
-                            <button type="button" id="tagDialogPrev" class="btn btn-secondary btn-compact">前</button>
+                            <button type="button" id="tagDialogPrev" class="btn btn-secondary btn-compact" data-i18n="button.prev">前</button>
                             <div id="tagDialogPagerNumbers" class="tag-dialog__pages"></div>
-                            <button type="button" id="tagDialogNext" class="btn btn-secondary btn-compact">次</button>
+                            <button type="button" id="tagDialogNext" class="btn btn-secondary btn-compact" data-i18n="button.next">次</button>
                             <span id="tagDialogPage" class="tag-dialog__page">1/1</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- リファレンス -->
-            <section class="reference-section">
-                <details class="reference-toggle">
-                    <summary>検索式のリファレンス</summary>
-                    <div class="reference-content">
-                    <h3>基本的な演算子</h3>
-                    <ul>
-                        <li><strong>AND（スペース）</strong>: 複数の条件すべてを満たす（例: <code>{tags: [mmd]} {tags: [dance]}</code>）</li>
-                        <li><strong>OR</strong>: 複数の条件のいずれかを満たす（例: <code>{tags: [r18, ecchi]}</code>）</li>
-                        <li><strong>NOT</strong>: 条件を除外する（例: <code>{tags: ![guro]}</code>）</li>
-                    </ul>
-                    <h3>フィールド指定</h3>
-                    <ul>
-                        <li><code>{title_ja: miku}</code> - タイトル</li>
-                        <li><code>{body_ja: dance}</code> - 詳細</li>
-                        <li><code>{author: [username]}</code> - 作者</li>
-                        <li><code>{rating=general}</code> - レーティング</li>
-                        <li><code>{duration: [60..120]}</code> - 長さ（秒）</li>
-                        <li><code>{likes: [10..]}</code> - Likes</li>
-                        <li><code>{views: [100..]}</code> - Views</li>
-                        <li><code>{comments: [5..]}</code> - Comments</li>
-                        <li><code>{tags: [タグ名]}</code> - タグ（複数は <code>[a, b]</code>）</li>
-                        <li><code>{date: [1700000000..1709999999]}</code> - 更新日（UNIX）</li>
-                    </ul>
-                    <p class="reference-link">
-                        詳細は<a href="https://www.iwara.tv/forum/announcements/2520f68b-b13f-42db-834b-8ab9a2017ad4/2025-08-16-search-update-or-or" target="_blank" rel="noopener noreferrer">公式アナウンス</a>をご覧ください。
-                    </p>
-                    </div>
-                </details>
+            <section class="reference-link-section">
+                <a href="https://www.iwara.tv/forum/announcements/2520f68b-b13f-42db-834b-8ab9a2017ad4?page=0" target="_blank" rel="noopener noreferrer" data-i18n="reference.linkText">検索式の使い方は掲示板をご覧ください</a>
             </section>
         </main>
 
-        <footer>
-            <p>&copy; 2024 Iwara検索フォーム</p>
-        </footer>
+        <footer></footer>
     </div>
 
   <script src="script.js"></script>

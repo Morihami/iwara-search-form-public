@@ -248,6 +248,10 @@ main {
     width: var(--label-width);
 }
 
+.tag-filter-row > label {
+    text-align: right;
+}
+
 .form-group-inline-2 {
     display: grid;
     grid-template-columns: var(--label-width) auto;
@@ -384,15 +388,21 @@ main {
 }
 
 .tag-input {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 8px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    column-gap: 8px;
+    row-gap: 6px;
+    padding: 4px 8px;
     border: 2px solid var(--border-color);
     border-radius: 8px;
     background: white;
     min-width: 220px;
+}
+
+.tag-input .tag-add-btn {
+    justify-self: end;
+    align-self: start;
 }
 
 .tag-input:focus-within {
@@ -407,6 +417,10 @@ main {
     flex: 1;
     font-size: 0.98em;
     background: transparent;
+}
+
+.tag-input input[type="text"][readonly] {
+    display: none;
 }
 
 .tag-input input[type="text"]:focus {
@@ -568,10 +582,24 @@ main {
 
 /* 保存セクション */
 .saved-section {
-    margin-top: 14px;
+    margin-top: 8px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+}
+
+.saved-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.saved-row .btn-secondary {
+    padding: 6px 10px;
+    font-size: 0.85em;
+    min-width: 5ch;
+    flex: 0 0 auto;
 }
 
 .saved-header {
@@ -590,8 +618,7 @@ main {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex: 1;
-    justify-content: flex-start;
+    flex: 0 1 auto;
 }
 
 .saved-input input[type="text"] {
@@ -927,9 +954,9 @@ main {
     align-self: flex-start;
 }
 
-.result-container > .copy-message {
-    margin-top: -4px;
-    margin-bottom: 6px;
+.saved-section .copy-message {
+    margin-top: 2px;
+    margin-bottom: 0;
 }
 
 .result-preview {
@@ -1098,6 +1125,22 @@ main {
 }
 
 .reference-link a:hover {
+    text-decoration: underline;
+}
+
+/* 参照リンク */
+.reference-link-section {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.reference-link-section a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.reference-link-section a:hover {
     text-decoration: underline;
 }
 
